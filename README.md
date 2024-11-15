@@ -25,9 +25,9 @@ Applications are open to final-year undergraduate students, master’s and PhD s
    Interested candidates must submit their applications via the provided [online form](https://forms.gle/yFiBrePKKWymrybg7) by **5:00 pm on 14th November 2024**. Only candidates who complete this submission will be considered for the next round.
 
 2. **Second Round - Online Test**  
-   Candidates who have successfully applied in the first round will be invited to participate in an online test scheduled for **16th November 2024**.
+   Candidates who have successfully applied in the first round will be invited to participate in an online test scheduled for ~~16th November 2024~~ **17th November 2024 at 10:00 AM**.
 
-Selected candidates will receive notification of their acceptance into the Winter School on **17th November 2024**.
+Selected candidates will receive notification of their acceptance into the Winter School by ~~17th November 2024~~ **19th November 2024**.
 
 
 ## Logistics
