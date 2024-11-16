@@ -2,9 +2,8 @@
 
 [Welcome](#about) | [Topics](#topics) | [Registeration](#registeration) | [Programme](#programme)
 
----
 
-> ⚠️ **Alert: Online Test on November 17th at 10:00 AM**
+>[!IMPORTANT]
 > 
 > The online test is scheduled for **November 17th at 10:00 AM**. Test will be available at [wss24.cse.iitd.ac.in/moodle](wss24.cse.iitd.ac.in/moodle)
 >
@@ -12,11 +11,11 @@
 > 
 > **Username**: Your email address
 > 
-> **Password**:  The part before the "@" symbol in your email address 
-
+> **Password**:  The part before the "@" symbol in your email address
+>
 > For more information and updates see [https://groups.google.com/g/iitd-ws2024-2/](https://groups.google.com/g/iitd-ws2024-2/). Also check your spam folder if you didn't get an invite to join the google group.
 
----
+
 
 ## Welcome<a name="about"></a>
 The **Winter School 2024 on Data Systems**, organized by the Data Systems Group of the [Department of Computer Science and Engineering](https://www.cse.iitd.ac.in/) at IIT Delhi, will be held from **December 2nd to December 6th, 2024**. Supported by the Mohit Aron Endowment, this winter school provides an exceptional opportunity for final-year undergraduate students, master’s and PhD students, and industry professionals to deepen their knowledge in **scalable systems for Big Data, Data Science and AI**. 
