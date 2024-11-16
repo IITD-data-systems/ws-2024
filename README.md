@@ -14,7 +14,7 @@
 > 
 > **Password**:  The part before the "@" symbol in your email address 
 
-> For more information and updates see [https://groups.google.com/g/iitd-ws2024-2/](https://groups.google.com/g/iitd-ws2024-2/)
+> For more information and updates see [https://groups.google.com/g/iitd-ws2024-2/](https://groups.google.com/g/iitd-ws2024-2/). Also check your spam folder if you didn't get an invite to join the google group.
 
 ---
 
