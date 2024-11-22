@@ -2,6 +2,11 @@
 
 [Welcome](#about) | [Topics](#topics) | [Registeration](#registeration) | [Programme](#programme)
 
+> [!IMPORTANT]  
+> Selected candidates have already been notified via email. All selected candidates are kindly requested to join the Google group https://groups.google.com/g/ds-ws24 for the latest updates and communications. An invitation has also been sent; if you have not received it, please check your spam folder. 
+
+
+
 
 ## Welcome<a name="about"></a>
 The **Winter School 2024 on Data Systems**, organized by the Data Systems Group of the [Department of Computer Science and Engineering](https://www.cse.iitd.ac.in/) at IIT Delhi, will be held from **December 2nd to December 6th, 2024**. Supported by the Mohit Aron Endowment, this winter school provides an exceptional opportunity for final-year undergraduate students, master’s and PhD students, and industry professionals to deepen their knowledge in **scalable systems for Big Data, Data Science and AI**. 
