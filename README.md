@@ -60,7 +60,7 @@ the 8 weeks of summer 2025.
 
 ## Daily Schedule <a name="schedule"></a>
 | Time                | Activity                                                |
-| ------------------- | ------------------------------------------------------- |
+|---------------------|---------------------------------------------------------|
 | 09:00 am – 10:15 am | Lecture                                                 |
 | 10:15 am – 10:45 am | Break + high tea with instructors + offline discussions |
 | 10:45 am – 01:00 pm | Lectures with appropriate breaks                        |
