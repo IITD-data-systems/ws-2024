@@ -59,14 +59,12 @@ Students will be encouraged to apply for paid internships at IIT Delhi during
 the 8 weeks of summer 2025.
 
 ## Daily Schedule <a name="schedule"></a>
-| Time                | Activity                                                |
-|---------------------|---------------------------------------------------------|
-| 09:00 am – 10:15 am | Lecture                                                 |
-| 10:15 am – 10:45 am | Break + high tea with instructors + offline discussions |
-| 10:45 am – 01:00 pm | Lectures with appropriate breaks                        |
-| 01:00 pm – 02:00 pm | Lunch Break                                             |
-| 02:00 pm – 05:00 pm | Lab                                                     |
-| 03:30 pm – 04:00 pm | High tea                                                |
+* 09:00 am – 10:15 am: Lecture
+* 10:15 am – 10:45 am: High tea + offline discussions
+* 10:45 am – 01:00 pm: Lectures with breaks
+* 01:00 pm – 02:00 pm: Lunch Break
+* 02:00 pm – 05:00 pm: Lab
+* 03:30 pm – 04:00 pm: High tea
 
 
 ## Program <a name="program"></a>
