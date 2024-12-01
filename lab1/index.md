@@ -140,7 +140,7 @@ $ redis-cli ping
 
 ### Dataset Description
 
-The dataset is available at [link][1]. Each CSV file contains 7 attributes, following are a brief description of each attribute:
+The dataset is available at [link](https://www.kaggle.com/thoughtvector/customer-support-on-twitter). Each CSV file contains 7 attributes, following are a brief description of each attribute:
 
 - **_tweet_id:_** A unique, anonymized ID for the Tweet. Referenced by response_tweet_id and in_response_to_tweet_id.
 - **_author_id:_** A unique, anonymized user ID. [@s](https://www.kaggle.com/s) in the dataset have been replaced with their associated anonymized user ID.
@@ -174,9 +174,5 @@ The dataset is available at [link][1]. Each CSV file contains 7 attributes, foll
 3. Is your code tolerant to **worker** failures? Why is it guaranteed to provide the same answer even if a worker crashes?
 4. Is your code tolerant to **Redis** failures? Why is it guaranteed to provide the same answer even if Redis crashes?
 
-
-### References
-
-[1]: https://www.kaggle.com/thoughtvector/customer-support-on-twitter 
 
 
