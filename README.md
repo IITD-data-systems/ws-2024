@@ -2,6 +2,10 @@
 
 [Welcome](#about) | [Registration](#registration)  | [Logistics](#logistics) | [Schedule](#schedule) | [Program](#program)
 
+> [!NOTE]
+> [Prof. Sanjam Garg](https://people.eecs.berkeley.edu/~sanjamg/), UC Berkeley,
+an alumnus of IITD, will give a keynote address titled "Your research career".
+
 > [!IMPORTANT]  
 > Selected candidates have already been notified via email. All selected
 candidates are kindly requested to join the Google group
@@ -13,7 +17,7 @@ spam folder.
 The **Winter School 2024 on Data Systems**, organized by the Data Systems Group
 of the [Department of Computer Science and
 Engineering](https://www.cse.iitd.ac.in/) at IIT Delhi, will be held from
-**December 2nd to December 6th, 2024**. Supported by the Mohit Aron Endowment,
+December 2nd to December 6th, 2024. Supported by the **Mohit Aron Endowment**,
 this winter school provides an exceptional opportunity for final-year
 undergraduate students, master’s and PhD students, and industry professionals to
 deepen their knowledge in **scalable systems for Big Data, Data Science and
@@ -71,6 +75,7 @@ the 8 weeks of summer 2025.
 The Winter School will cover the following topics:
 
 ### Day 1: Distributed data processing
+Lecture:
 * Holy grail: transparently scale, and tolerate faults/stragglers;
 * Difficulties in transparent locality, scalability, fault tolerance, and
 straggler mitigation;
@@ -79,18 +84,35 @@ straggler mitigation;
 * Main ideas: functional programming model; separate control and data plane;
 locality optimizations, re-execute lost/backup tasks, deterministic/idempotent
 tasks.
-* Lab: Write a fault tolerant computation from scratch
+
+Lab: Write a fault tolerant computation from scratch
 
 ### Day 2: Dataflow systems for batch processing
-* *Keynote address: TBA*
-* Spark's Resilient distributed dataset (RDD) abstraction: write-once for
-consistent replication, coarse-grained transformations to reduce lineage,
-lineage-based re-execution of lost/backup tasks;
-* Abstractions beyond MapReduce, lazy execution, stage planning, narrow
-and wide-dependencies, query optimizations.
-* Lab: Hands-on exercises with Spark.
+Keynote address by [Prof. Sanjam Garg](https://people.eecs.berkeley.edu/~sanjamg/), UC Berkeley titled *"Your research career"*.
+  > Abstract: In this talk, I will share my experiences and the lessons I have
+  learned. I hope that they will help you in your research career.
+  >
+  > Bio: Prof. Sanjam Garg is an Associate Professor at the University of California,
+  Berkeley. His research interests are in cryptography and its applications to
+  security and privacy. He obtained his Ph.D. from the University of California,
+  Los Angeles in 2013 and his undergraduate degree from the IIT, Delhi in 2008.
+  Prof. Garg is the recipient of various honors such as the ACM Doctoral
+  Dissertation Award, the Sloan Research Fellowship and the IIT Delhi Graduates
+  of the Last Decade Award. Prof. Garg's research has been recognized with a
+  test of time award at FOCS 2023, and best paper awards at EUROCRYPT 2013,
+  CRYPTO 2017 and EUROCRYPT 2018. 
+
+Lectures:
+  * Spark's Resilient distributed dataset (RDD) abstraction: write-once for
+  consistent replication, coarse-grained transformations to reduce lineage,
+  lineage-based re-execution of lost/backup tasks;
+  * Abstractions beyond MapReduce, lazy execution, stage planning, narrow
+  and wide-dependencies, query optimizations.
+
+Lab: Hands-on exercises with Spark.
 
 ### Day 3: Dataflow systems for stream processing
+Lecture:
 * Semantics of stream processing: unbounded streams, event time vs processing
 time, hopping/sliding/session windows, watermarks;
 * Streaming query optimizations and continuous operator model of Flink for
@@ -98,10 +120,11 @@ low-latency;
 * Fault tolerance: problems due to state in continuous operators, pull state
 out of operators by discretizing streams, consistent checkpoints in Flink using
 Chandy-Lamport algorithm.
-* Lab: Hands-on exercises with Flink.
 
+Lab: Hands-on exercises with Flink.
 
 ### Day 4: Cyclic dataflow systems
+Lecture:
 * Iterative data processing: solving graph problems with iterative data
 processing, driver-based iterations vs native iterations with cyclic dataflows,
 changes for creating consistent checkpoints.
@@ -110,14 +133,19 @@ citizen, Reactive dataflow with deletes, edits, and appends.
 * Backward and forward lineage for backward tracing and delete propagation, 
 stage planning with incremental/non-incremental, monotonic/non-monotonic
 operators
-* Lab: Hands-on exercises with Popper.
+
+Lab: Hands-on exercises with Popper.
 
 ### Day 5: Cross-platform data processing
+Lecture:
 * Introduction to Wayang: a platform for cross-framework data processing,
 allowing optimizations across Spark, Flink, and Relational Databases.
-* Sessions about data systems research at IITD, guiding participants interested
+
+Career session:
+* Data systems research at IITD, guiding participants interested
 in pursuing higher studies, and research success stories.
-* Lab: Hands-on exercises with Wayang.
+
+Lab: Hands-on exercises with Wayang.
 
 > Disclaimer: The schedule and topics are only tentative. They are subject to
 change depending upon attendee interests.
