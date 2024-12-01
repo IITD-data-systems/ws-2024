@@ -49,7 +49,7 @@ Selected candidates will receive notification of their acceptance into the
 Winter School by ~~17th November 2024~~ **21st November 2024**.
 
 ## Logistics<a name="logistics"></a>
-- **Venue**: Department of Computer Science and Engineering, IIT Delhi
+- **Venue**: Room 501, Bharti building, Department of Computer Science and Engineering, IIT Delhi.
 - **Dates**: December 2nd – December 6th, 2024
 - **Accommodation**: Hostel accommodation including breakfast, lunch, dinner,
 and high tea will be provided from Dec 1st -- Dec 7th, 2024. In addition, a
@@ -58,7 +58,7 @@ required to check in on December 1st, 2024, and check out before noon on
 December 7th, 2024.
 - **After winter school**: Participants who successfully complete the Winter
 School will receive a **Certificate of Participation**. *Please note that we
-will not provide recommendation letters for graduate school applications.*
+will NOT provide recommendation letters for graduate school applications.*
 Students will be encouraged to apply for paid internships at IIT Delhi during
 the 8 weeks of summer 2025.
 
