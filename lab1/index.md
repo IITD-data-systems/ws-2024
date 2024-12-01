@@ -37,7 +37,7 @@ write a Redis function for making your tasks idempotent.
 ## Part 1: Parallel execution
 
 We will first make the word count application run end-to-end using Redis.  But
-before that, download the [starter code](./starter_code/).
+before that, download the [starter code](./starter_code.zip).
 
 Update `DATA_PATH` in `config.json` to point to your `data` folder.  Run 
 `python3 client.py`. In this lab, you have to modify `worker.py` and `myrds.py`.
