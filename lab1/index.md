@@ -18,11 +18,7 @@ store like S3.
 
 ## Part 0
 Familiarize yourself with [Redis](./redis). You need `docker` and
-`redis` installed for this.
-
-```
-docker run -d -p 6379:6379 -v /home/baadalvm/redis:/data --name redis --rm redis:7.4
-```
+`redis` installed for this. See how to [install redis](#redis-installation) using docker below.
 
 Learn sending commands to redis using `redis-cli` and from python programs using
 the [redis-py](https://github.com/redis/redis-py) library. Especially
@@ -111,5 +107,76 @@ again receive the file for processing and it will again `xack` + increment word
 counts in one atomic operation. Since our workers are stateless and file counts 
 are deterministic, recomputing a file's word counts are ok.
 
+You can load the lua function `mylib.lua` into the Redis instance using the
+following command:
+
+```bash
+cat mylib.lua | redis-cli -x FUNCTION LOAD REPLACE
+```
+
 > Ensure that you set up the new instance in an identical manner, i.e, listen on 
 > the same port, set up the same password, and insert the same lua functions.
+
+## Lab Instructions
+
+You can **only** use Python, Pandas and Redis for this Lab. 
+
+### Redis Installation:
+
+```bash
+$ docker run -d -p 6379:6379 --name redis --rm redis:7.4
+```
+
+- Use the following commands to verify the successful installation of Redis.
+
+```bash
+$ redis-cli --version
+
+#check if you got the right redis-server version
+$ redis-cli -h 127.0.0.1 -p 6379 INFO server
+
+$ redis-cli ping
+```
+
+### Dataset Description
+
+The dataset is available at [link][1]. Each CSV file contains 7 attributes, following are a brief description of each attribute:
+
+- **_tweet_id:_** A unique, anonymized ID for the Tweet. Referenced by response_tweet_id and in_response_to_tweet_id.
+- **_author_id:_** A unique, anonymized user ID. [@s](https://www.kaggle.com/s) in the dataset have been replaced with their associated anonymized user ID.
+- **_inbound:_** Whether the tweet is "inbound" to a company doing customer support on Twitter. This feature is useful when re-organizing data for training conversational models.
+- **_created_at:_** Date and time when the tweet was sent.
+- **_text:_** Tweet content. Sensitive information like phone numbers and email addresses are replaced with mask values like \__email_\_.
+- **_response_tweet_id:_** IDs of tweets that are responses to this tweet, comma separated.
+- **_in_response_to_tweet_id:_** ID of the tweet this tweet is in response to, if any.
+
+### Problem Statement
+
+**Count the occurrence of each word given a set of files**. Your task is to create an application that can handle the large amount of data, which is estimated to be in the range of GBs.
+
+- Since a serial word count will not be sufficient, you need to design a scalable word count application that can handle the size of the dataset.
+- Since there is a possibility of faults in the system, you need to make your implementation tolerant to worker faults (failures) as well as redis-server faults.
+
+### Logistics:
+
+- You are provided with the starter code for the challenge.
+- Please use python version 3.10 and Redis version 7.4.
+- A serial version of the word count code is provided as `serial.py` for your reference. You can use this to evaluate the correctness of your parallel implementation. Note that you just need to split the text by the space delimiter to get the words.
+- You can use the provided `split_csv.py` to split the dataset into multiple small csv files.
+- You can use the docker commands to restart redis. `docker stop redis`, `docker restart redis`.
+
+
+
+### Evaluate Your Application
+
+1. For a fixed input size, measure how the efficiency of the word-count application varies with an increase in workers (in the range of [1, 32]) allocated to the application.
+2. For a fixed number of worker processes (= 8) allocated to the application, measure how the efficiency of the word-count application varies with input size.
+3. Is your code tolerant to **worker** failures? Why is it guaranteed to provide the same answer even if a worker crashes?
+4. Is your code tolerant to **Redis** failures? Why is it guaranteed to provide the same answer even if Redis crashes?
+
+
+### References
+
+[1]: https://www.kaggle.com/thoughtvector/customer-support-on-twitter 
+
+
