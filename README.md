@@ -85,7 +85,7 @@ straggler mitigation;
 locality optimizations, re-execute lost/backup tasks, deterministic/idempotent
 tasks.
 
-Lab: Write a fault tolerant computation from scratch.
+[Lab: Write a fault tolerant computation from scratch.](./lab1/)
 
 ### Day 2: Dataflow systems for batch processing
 Keynote address by [Prof. Sanjam Garg](https://people.eecs.berkeley.edu/~sanjamg/), UC Berkeley titled *"Your research career"*.

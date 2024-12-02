@@ -16,10 +16,102 @@ inputs. This is again trivially true on our single system. In a real setup,
 workers would additionally use a distributed file system like HDFS or a blob
 store like S3.
 
-## Part 0
-Familiarize yourself with [Redis](./redis). You need `docker` and
-`redis` installed for this. See how to [install redis](#redis-installation) using docker below.
+## Lab instructions
+You will use Python, Pandas and Redis for this Lab. 
 
+Download the [starter code](./starter_code.zip)
+
+Create a working directory and navigate to it:
+   ```bash
+   mkdir -p ws24/lab1 && cd ws24/lab1
+   ```
+Unzip the starter code into the working directory:
+   ```bash
+   unzip ../starter_code.zip
+   ```
+
+Note: Adjust the path to `starter_code.zip` based on where you downloaded the file.
+
+
+Create a [`conda`](https://docs.anaconda.com/miniconda/install/#quick-command-line-install) environment with python 3.10 and install the required packages.
+
+
+```bash
+conda create -n lab1 python=3.10 && conda activate lab1 
+```
+
+Install the required packages inside the conda environment. The `requirements.txt` file is in the starter code.
+
+```bash
+pip install -r requirements.txt
+```
+
+### Redis Installation:
+
+```bash
+$ docker run -d -p 6379:6379 --name redis --rm redis:7.4
+```
+
+- Use the following commands to verify the successful installation of Redis.
+
+```bash
+$ redis-cli --version
+
+#check if you got the right redis-server version
+$ redis-cli -h 127.0.0.1 -p 6379 INFO server
+
+$ redis-cli ping
+```
+### Running the code
+
+Once you are done with the implementation/TODOs, run the `client.py` file to start the word count application.
+
+```bash
+python client.py
+```
+Download [RedisInsight](https://redis.com/redis-enterprise/redis-insight/) to visualize the Redis streams and sorted sets for better understanding.
+
+### Dataset Description
+
+The dataset is available at [link](https://www.kaggle.com/thoughtvector/customer-support-on-twitter). Each CSV file contains 7 attributes, following are a brief description of each attribute:
+
+- **_tweet_id:_** A unique, anonymized ID for the Tweet. Referenced by response_tweet_id and in_response_to_tweet_id.
+- **_author_id:_** A unique, anonymized user ID. [@s](https://www.kaggle.com/s) in the dataset have been replaced with their associated anonymized user ID.
+- **_inbound:_** Whether the tweet is "inbound" to a company doing customer support on Twitter. This feature is useful when re-organizing data for training conversational models.
+- **_created_at:_** Date and time when the tweet was sent.
+- **_text:_** Tweet content. Sensitive information like phone numbers and email addresses are replaced with mask values like \__email_\_.
+- **_response_tweet_id:_** IDs of tweets that are responses to this tweet, comma separated.
+- **_in_response_to_tweet_id:_** ID of the tweet this tweet is in response to, if any.
+
+### Problem Statement
+
+**Count the occurrence of each word given a set of files**. Your task is to create an application that can handle the large amount of data, which is estimated to be in the range of GBs.
+
+- Since a serial word count will not be sufficient, you need to design a scalable word count application that can handle the size of the dataset.
+- Since there is a possibility of faults in the system, you need to make your implementation tolerant to worker faults (failures) as well as redis-server faults.
+
+### Logistics:
+
+- You are provided with the starter code for the challenge.
+- Please use python version 3.10 and Redis version 7.4.
+- A serial version of the word count code is provided as
+[`serial.py`](./serial.py) for your reference. You can use this to evaluate the
+correctness of your parallel implementation. Note that you just need to split
+the text by the space delimiter to get the words.
+- You can use the provided [`split_csv.py`](./split_csv.py) to split the dataset
+into multiple small csv files.
+- You can use the docker commands to restart redis. `docker stop redis`, `docker restart redis`.
+- Evaluate your application by randomly killing your workers.
+
+1. For a fixed input size, measure how the efficiency of the word-count application varies with an increase in workers (in the range of [1, 32]) allocated to the application.
+2. For a fixed number of worker processes (= 8) allocated to the application, measure how the efficiency of the word-count application varies with input size.
+3. Is your code tolerant to **worker** failures? Why is it guaranteed to provide the same answer even if a worker crashes?
+4. Is your code tolerant to **Redis** failures? Why is it guaranteed to provide the same answer even if Redis crashes?
+
+
+## Part 0
+
+Hope you already have Redis running. Familiarize yourself with [Redis](./redis). 
 Learn sending commands to redis using `redis-cli` and from python programs using
 the [redis-py](https://github.com/redis/redis-py) library. Especially
 familiarize yourself with [sorted sets](https://redis.io/commands/zadd/). You
@@ -116,98 +208,3 @@ cat mylib.lua | redis-cli -x FUNCTION LOAD REPLACE
 
 > Ensure that you set up the new instance in an identical manner, i.e, listen on 
 > the same port, set up the same password, and insert the same lua functions.
-
-## Lab Instructions
-
-You can **only** use Python, Pandas and Redis for this Lab. 
-
-Download the [starter code](./starter_code.zip)
-
-Create a working directory and navigate to it:
-   ```bash
-   mkdir -p ws24/lab1 && cd ws24/lab1
-   ```
-Unzip the starter code into the working directory:
-   ```bash
-   unzip ../starter_code.zip
-   ```
-
-Note: Adjust the path to `starter_code.zip` based on where you downloaded the file.
-
-
-Create a [`conda`](https://docs.anaconda.com/miniconda/install/#quick-command-line-install) environment with python 3.10 and install the required packages.
-
-
-```bash
-conda create -n lab1 python=3.10 && conda activate lab1 
-```
-
-Install the required packages inside the conda environment. The `requirements.txt` file is in the starter code.
-
-```bash
-pip install -r requirements.txt
-```
-
-### Redis Installation:
-
-```bash
-$ docker run -d -p 6379:6379 --name redis --rm redis:7.4
-```
-
-- Use the following commands to verify the successful installation of Redis.
-
-```bash
-$ redis-cli --version
-
-#check if you got the right redis-server version
-$ redis-cli -h 127.0.0.1 -p 6379 INFO server
-
-$ redis-cli ping
-```
-### Running the code
-
-Once you are done with the implementation/TODOs, run the `client.py` file to start the word count application.
-
-```bash
-python client.py
-```
-Download [RedisInsight](https://redis.com/redis-enterprise/redis-insight/) to visualize the Redis streams and sorted sets for better understanding.
-
-### Dataset Description
-
-The dataset is available at [link](https://www.kaggle.com/thoughtvector/customer-support-on-twitter). Each CSV file contains 7 attributes, following are a brief description of each attribute:
-
-- **_tweet_id:_** A unique, anonymized ID for the Tweet. Referenced by response_tweet_id and in_response_to_tweet_id.
-- **_author_id:_** A unique, anonymized user ID. [@s](https://www.kaggle.com/s) in the dataset have been replaced with their associated anonymized user ID.
-- **_inbound:_** Whether the tweet is "inbound" to a company doing customer support on Twitter. This feature is useful when re-organizing data for training conversational models.
-- **_created_at:_** Date and time when the tweet was sent.
-- **_text:_** Tweet content. Sensitive information like phone numbers and email addresses are replaced with mask values like \__email_\_.
-- **_response_tweet_id:_** IDs of tweets that are responses to this tweet, comma separated.
-- **_in_response_to_tweet_id:_** ID of the tweet this tweet is in response to, if any.
-
-### Problem Statement
-
-**Count the occurrence of each word given a set of files**. Your task is to create an application that can handle the large amount of data, which is estimated to be in the range of GBs.
-
-- Since a serial word count will not be sufficient, you need to design a scalable word count application that can handle the size of the dataset.
-- Since there is a possibility of faults in the system, you need to make your implementation tolerant to worker faults (failures) as well as redis-server faults.
-
-### Logistics:
-
-- You are provided with the starter code for the challenge.
-- Please use python version 3.10 and Redis version 7.4.
-- A serial version of the word count code is provided as `serial.py` for your reference. You can use this to evaluate the correctness of your parallel implementation. Note that you just need to split the text by the space delimiter to get the words.
-- You can use the provided `split_csv.py` to split the dataset into multiple small csv files.
-- You can use the docker commands to restart redis. `docker stop redis`, `docker restart redis`.
-
-
-
-### Evaluate Your Application
-
-1. For a fixed input size, measure how the efficiency of the word-count application varies with an increase in workers (in the range of [1, 32]) allocated to the application.
-2. For a fixed number of worker processes (= 8) allocated to the application, measure how the efficiency of the word-count application varies with input size.
-3. Is your code tolerant to **worker** failures? Why is it guaranteed to provide the same answer even if a worker crashes?
-4. Is your code tolerant to **Redis** failures? Why is it guaranteed to provide the same answer even if Redis crashes?
-
-
-
