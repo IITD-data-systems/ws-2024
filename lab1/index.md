@@ -90,7 +90,7 @@ The dataset is available at [link](https://www.kaggle.com/thoughtvector/customer
 - Since a serial word count will not be sufficient, you need to design a scalable word count application that can handle the size of the dataset.
 - Since there is a possibility of faults in the system, you need to make your implementation tolerant to worker faults (failures) as well as redis-server faults.
 
-### Logistics:
+## Overview
 
 - You are provided with the starter code for the challenge.
 - Please use python version 3.10 and Redis version 7.4.
@@ -101,13 +101,8 @@ the text by the space delimiter to get the words.
 - You can use the provided [`split_csv.py`](./split_csv.py) to split the dataset
 into multiple small csv files.
 - You can use the docker commands to restart redis. `docker stop redis`, `docker restart redis`.
-- Evaluate your application by randomly killing your workers.
-
-1. For a fixed input size, measure how the efficiency of the word-count application varies with an increase in workers (in the range of [1, 32]) allocated to the application.
-2. For a fixed number of worker processes (= 8) allocated to the application, measure how the efficiency of the word-count application varies with input size.
-3. Is your code tolerant to **worker** failures? Why is it guaranteed to provide the same answer even if a worker crashes?
-4. Is your code tolerant to **Redis** failures? Why is it guaranteed to provide the same answer even if Redis crashes?
-
+- Evaluate your application by randomly killing your workers and by restarting
+Redis.
 
 ## Part 0
 
