@@ -121,11 +121,19 @@ cat mylib.lua | redis-cli -x FUNCTION LOAD REPLACE
 
 You can **only** use Python, Pandas and Redis for this Lab. 
 
-Download the [starter code](./starter_code.zip), navigate to the `lab1` directory and unzip the starter code.
+Download the [starter code](./starter_code.zip)
 
-```bash
-mkdir -p ws24/lab1 && cd ws24/lab1
-```
+Create a working directory and navigate to it:
+   ```bash
+   mkdir -p ws24/lab1 && cd ws24/lab1
+   ```
+Unzip the starter code into the working directory:
+   ```bash
+   unzip ../starter_code.zip
+   ```
+
+Note: Adjust the path to `starter_code.zip` based on where you downloaded the file.
+
 
 Create a [`conda`](https://docs.anaconda.com/miniconda/install/#quick-command-line-install) environment with python 3.10 and install the required packages.
 
@@ -158,7 +166,7 @@ $ redis-cli ping
 ```
 ### Running the code
 
-Run the `client.py` file to start the word count application.
+Once you are done with the implementation/TODOs, run the `client.py` file to start the word count application.
 
 ```bash
 python client.py
