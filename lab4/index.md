@@ -20,7 +20,7 @@ later](#part-1-understanding-pyscope)).
 <summary><strong>Important</strong>: For Windows Users</summary>
 
 - You might want to start a docker container for Redis to keep it running in the background.
-```bash
+```commandterminal
   $ docker run -d -p 6379:6379 --name redis --rm redis:7.4
   ```
 </details>
@@ -28,12 +28,12 @@ later](#part-1-understanding-pyscope)).
 ### Installing Popper
 
 1. Pull the Popper Docker image:
-```bash
+```commandterminal
 $ docker pull 0xadnan/popper:latest
 ```
 
 2. Launch Popper in Docker:
-```bash
+```commandterminal
 $ docker run -p 5173:5173, 16686:16686 -it 0xadnan/popper:latest
 ```
 You should now see a prompt that looks something like:
@@ -52,12 +52,12 @@ root@75a91d135cdf:/popper# make objstore
 ```
 
 5. Test if the installation was successful, try running some tests in a new terminal:
-```bash
+```commandterminal
 # Get container ID
 $ docker ps
 
 # Connect to container
-$ docker exec -it <container_id> bash
+$ docker exec -it <container_id> /bin/bash
 ```
 Our docker image comes with pre-installed Python dependencies required for
 Popper.
@@ -592,7 +592,7 @@ with the number of lambda functions that we have defined in the `UpperLowerCaseT
 
 Lets try running the above test to see the conjectures in action.
 
-```bash
+```commandterminal
 # Run test
 pytest -s scope/integration_tests/simple_conjecture_test.py
 ```
