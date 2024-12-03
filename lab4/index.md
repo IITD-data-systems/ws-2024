@@ -20,7 +20,7 @@ later](#part-1-understanding-pyscope)).
 <summary><strong>Important</strong>: For Windows Users</summary>
 
 - You might want to start a docker container for Redis to keep it running in the background.
-```commandterminal
+```python
   $ docker run -d -p 6379:6379 --name redis --rm redis:7.4
   ```
 </details>
@@ -28,37 +28,38 @@ later](#part-1-understanding-pyscope)).
 ### Installing Popper
 
 1. Pull the Popper Docker image:
-```commandterminal
+```python
 $ docker pull 0xadnan/popper:latest
 ```
 
 2. Launch Popper in Docker:
-```commandterminal
+```python
 $ docker run -p 5173:5173, 16686:16686 -it 0xadnan/popper:latest
 ```
 You should now see a prompt that looks something like:
-```commandterminal
+```python
 root@75a91d135cdf:/popper#
 ```
 
 3. Start Redis:
-```commandterminal
+```python
 root@75a91d135cdf:/popper# make redis
 ```
 
 4. Start the Object Store:
-```commandterminal
+```python
 root@75a91d135cdf:/popper# make objstore
 ```
 
 5. Test if the installation was successful, try running some tests in a new terminal:
-```commandterminal
+```python
 # Get container ID
 $ docker ps
-
+```
+```python
 # Connect to container
 $ docker exec -it <container_id> /bin/bash
-```
+``` 
 Our docker image comes with pre-installed Python dependencies required for
 Popper.
 
@@ -260,7 +261,7 @@ class SentimentProcessor(Processor):
 
 Now, we can run our test to see if the workflow is working as expected:
 
-```commandterminal
+```python
 # Run test
 root@75a91d135cdf:/popper# pytest -s scope/integration_tests/ml_test.py
 ```
@@ -274,14 +275,14 @@ classified and written to the output file.
 ### Visualizing the workflow
 Popper also provides a dashboard to visualize the workflow.  To start the
 visualization backend, run the following command:
-```commandterminal
+```python
 root@75a91d135cdf:/popper# make server
 ```
 
 TODO: make sure you have `npm` installed 
 
 To spin up the UI run the following command:
-```commandterminal
+```python
 root@75a91d135cdf:/popper# make demo
 ```
 You should now be able to see the dashboard by navigating to [localhost:5173](http://localhost:5173) in your web browser.
@@ -290,7 +291,7 @@ TODO: screenshot
 
 Popper also supports performance tracing. To trace jobs, start Jaeger by running:
 
-```commandterminal
+```python
 root@75a91d135cdf:/popper# make jaeger
 ```
 
@@ -592,7 +593,7 @@ with the number of lambda functions that we have defined in the `UpperLowerCaseT
 
 Lets try running the above test to see the conjectures in action.
 
-```commandterminal
+```python
 # Run test
 pytest -s scope/integration_tests/simple_conjecture_test.py
 ```
