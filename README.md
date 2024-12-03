@@ -109,7 +109,7 @@ Lectures:
   * Abstractions beyond MapReduce, lazy execution, stage planning, narrow
   and wide-dependencies, query optimizations.
 
-Lab: Hands-on exercises with Spark.
+[Lab: Hands-on exercises with Spark.](./lab2/lab2.zip)
 
 ### Day 3: Dataflow systems for stream processing
 Lecture:
