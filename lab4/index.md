@@ -15,58 +15,67 @@ later](#part-1-understanding-pyscope)).
   - [Install Docker for Windows](https://docs.docker.com/desktop/install/windows-install/)
   - [Install Docker for macOS](https://docs.docker.com/desktop/install/mac-install/)
   - [Install Docker for Linux](https://docs.docker.com/desktop/install/linux-install/)
-
-<details>
-<summary><strong>Important</strong>: For Windows Users</summary>
-
-- You might want to start a docker container for Redis to keep it running in the background.
-```python
-  $ docker run -d -p 6379:6379 --name redis --rm redis:7.4
-  ```
-</details>
+    
 
 ### Installing Popper
 
 1. Pull the Popper Docker image:
-```python
+```
 $ docker pull 0xadnan/popper:latest
 ```
 
 2. Launch Popper in Docker:
-```python
-$ docker run -p 5173:5173, 16686:16686 -it 0xadnan/popper:latest
 ```
+$ docker run -p 5173:5173 -p 5000:5000 -it 0xadnan/popper:latest
+```
+<details>
+<summary><strong>Important: </strong> For Mac users</summary>
+
+You might want to map port 5000 to some other port in your machine, run
+```
+$ docker run -p 5173:5173 -p 6000:5000 -it 0xadnan/popper:latest
+```
+  
+</details>
 You should now see a prompt that looks something like:
-```python
+```
 root@75a91d135cdf:/popper#
 ```
 
 3. Start Redis:
-```python
+```
 root@75a91d135cdf:/popper# make redis
 ```
 
 4. Start the Object Store:
-```python
+```
 root@75a91d135cdf:/popper# make objstore
 ```
 
 5. Test if the installation was successful, try running some tests in a new terminal:
-```python
+```
 # Get container ID
 $ docker ps
 ```
-```python
+```
 # Connect to container
 $ docker exec -it <container_id> /bin/bash
-``` 
+```
+```
+root@75a91d135cdf:/popper# pytest -s scope/integration_tests/append_test.py
+```
+If the test passed sucessfully, go to the ws24_demo directory.
+```
+cd ws24_demo
+```
+Run the `test_light_models.py` script to all the models that we will be using in our lab.
+```
+root@75a91d135cdf:/popper/ws24_demo# python3 test_light_models.py
+```
+
 Our docker image comes with pre-installed Python dependencies required for
 Popper.
 
-TODO: 
-0. Build docker container for the use case on top of the Popper's docker container.
-
-Here are two scripts to [download light models](./test_light_models.py) and another script to [download heavy models](./test_heavy_models.py) that we will use in this lab.
 
 ## Part 1: Understanding PYSCOPE
 
