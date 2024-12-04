@@ -123,7 +123,7 @@ Chandy-Lamport algorithm.
 
 [Setup: Installing Pyflink](./lab3/setup.ipynb)
 
-Lab: Hands-on exercises with Flink.
+[Lab: Hands-on exercises with Flink.](./lab3/lab3.ipynb)
 
 ### Day 4: Cyclic dataflow systems
 Lecture:
