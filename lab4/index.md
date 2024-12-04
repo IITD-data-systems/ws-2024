@@ -11,33 +11,38 @@ later](#part-1-understanding-pyscope)).
 
 ## Part 0: Getting Started
 ### Prerequisites
-- Get Docker Desktop installed on your system
-  - [Install Docker for Windows](https://docs.docker.com/desktop/install/windows-install/)
-  - [Install Docker for macOS](https://docs.docker.com/desktop/install/mac-install/)
-  - [Install Docker for Linux](https://docs.docker.com/desktop/install/linux-install/)
+- Install Docker Desktop for your operating system:
+  - [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+    - Note: Windows Subsystem for Linux (WSL2) required
+  - [Docker Desktop for macOS](https://docs.docker.com/desktop/install/mac-install/)
+  - [Docker Desktop for Linux](https://docs.docker.com/desktop/install/linux-install/)
     
+- Verify Docker Engine is running by checking the Docker Desktop application status
 
 ### Installing Popper
 
-1. Pull the Popper Docker image:
+Pull the Popper Docker image:
 ```
-$ docker pull 0xadnan/popper:latest
+$ docker pull iitddatasystems/popperlite:latest
 ```
 
-2. Launch Popper in Docker:
+Launch Popper in Docker:
    
 <details>
-<summary><strong>Important: </strong> For Mac users</summary>
+<summary><strong>Note: </strong> For Mac users</summary>
 
-You might want to map port 5000 to some other port in your machine, run
+You might want to map port 5000 to some other port in your machine, run:
+
+
 ```
-$ docker run -p 5173:5173 -p 6000:5000 -it 0xadnan/popper:latest
+$ docker run -p 5173:5173 -p 6000:5000 -it iitddatasystems/popperlite:latest
 ```
   
 </details>
+<br>
 
 ```
-$ docker run -p 5173:5173 -p 5000:5000 -it 0xadnan/popper:latest
+$ docker run -p 5173:5173 -p 5000:5000 -it iitddatasystems/popperlite:latest
 ```
 
 You should now see a prompt that looks something like:
@@ -45,7 +50,7 @@ You should now see a prompt that looks something like:
 root@75a91d135cdf:/popper#
 ```
 
-3. Start Redis:
+Start Redis:
 ```
 root@75a91d135cdf:/popper# make redis
 ```
@@ -67,11 +72,13 @@ $ docker exec -it <container_id> /bin/bash
 ```
 root@75a91d135cdf:/popper# pytest -s scope/integration_tests/append_test.py
 ```
-If the test passed sucessfully, go to the ws24_demo directory.
+
+Upon successful test completion, navigate to the ws24_demo directory:
 ```
 cd ws24_demo
 ```
-Run the `test_light_models.py` script to load the models that we will be using in our lab.
+
+Initialize the required models by executing the `test_light_models.py` script:
 ```
 root@75a91d135cdf:/popper/ws24_demo# python3 test_light_models.py
 ```
@@ -91,7 +98,6 @@ Microsoft [VLDB 2008] with inflight error-handling.
 * `Combiner`: Combines multiple rows (like a traditional join).
 * `Outputter`: Writes rows to a data sink.
 
-<!-- PYSCOPE also provides two operators for error handling: [**rowErrorHandler**](#rowerrorhandler), [**rowSetErrorHander**](#rowseterrorhandler) -->
 
 These are base operators provided by PYSCOPE; you can extend these operators to
 build you own custom operators. for e.g. `LineReader` can be an `Extractor` that
@@ -141,8 +147,7 @@ In order to write the workflow, we will use the `JobBuilder` class from
 `jobbuilder.py`. This will be our entry point to writing a workflow. The
 `JobBuilder` provides a set of methods to add operators to the workflow like
 `extract()`, `process()`, `output()`, etc. These operators are then chained
-together to form a workflow. [Read more](#node-creation) on how nodes are
-created and added to the workflow.
+together to form a workflow.
 
 Let's first create a `prepareJob()` function that will return a `Job` object.
 Here we will give it the input and output paths and then chain the operators
@@ -154,8 +159,10 @@ def prepareJob() -> Job:
     abs_out_path = os.path.join(config.popper.WORKSPACE, "sentiment/ml_out.txt")
     abs_in_path = os.path.join(config.popper.WORKSPACE, "sentiment/ml_in.txt")
 ```
+
 Within the `prepareJob()` function, we will create a `JobBuilder` object and
 then chain the operators together to form the workflow.
+
 ```python
     jobc = JobBuilder()
     return jobc.extract(using=LineReader(frm=abs_in_path, out_col=b"line")) \
@@ -168,10 +175,10 @@ then chain the operators together to form the workflow.
 <summary>Optional: read more about JobBuilder</summary>
 
 JobBuilder also has these (constructor) parameters:
-- `disable_opts`: This is an optional parameter that allows you to selectivley disable the [optimizations](#optimizations-in-popper) for the job.
+- `disable_opts`: This is an optional parameter that allows you to selectivley disable the optimizations for the job.
 - `dag_opt`: This is a boolean parameter that enables **all DAG optimizations** for the job.
 - `enable_gc`: This is a boolean parameter that enables **garbage collection** for the job.
-- `hint`: This is an optional parameter that allows you to specify a [hint](#hints) for the job.
+- `hint`: This is an optional parameter that allows you to specify a hint for the job.
 - `template`: This is an optional parameter that allows you to specify a name for the job.
 
 Once the job is created, we can call `pre_build()` which will add the necessary
@@ -294,7 +301,7 @@ root@75a91d135cdf:/popper# make demo
 ```
 You should now be able to see the dashboard by navigating to [localhost:5173](http://localhost:5173) in your web browser.
 
-Popper also supports performance tracing. To trace jobs, start Jaeger by running:
+<!-- Popper also supports performance tracing. To trace jobs, start Jaeger by running:
 
 ```
 root@75a91d135cdf:/popper# make jaeger
@@ -302,7 +309,7 @@ root@75a91d135cdf:/popper# make jaeger
 
 Then rerun the job using the `pytest` command above. Once the job finishes, you
 should be able to see the trace by navigating to
-[localhost:16686](http://localhost:16686).
+[localhost:16686](http://localhost:16686). -->
 
 This hopefully gave you a good idea on how to write workflows in Popper, 
 
@@ -357,16 +364,7 @@ jobc.where(inp=n, predicate=is_negative, in_col_types={b"sentiment": b"str"}) \
     .output(using=CsvWriter(to=abs_out_path, order=[b"line"], gt=(gt_neg_path, csv_parse)))
 ```
 
-```mermaid
-graph LR
-    A[n= LineReader, SentimentProcessor]
-    A --> B[Where Positive]
-    A --> C[Where Negative]
-    B --> D[CsvWriter - Positive]
-    C --> E[CsvWriter - Negative]
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-```
+![get_node](/lab4/assets/get_node.png)
 
 ## Part 3: Multi-lingual sentiment analysis 
 
@@ -388,16 +386,7 @@ Your workflow should:
 
 The workflow should follow this structure:
 
-```mermaid
-    graph LR
-    A[LineReader] --> B[Language Classifier]
-    B --> |where = en| D[Union]
-    B --> |where != en| C[Translator]
-    C --> D
-    D --> E[Sentiment Analysis]
-    E --> |output| F[negative.csv]
-    E --> |output| G[positive.csv]
-```
+![exercise_2](/lab4/assets/exercise_2.png)
 
 
 <details>
@@ -482,16 +471,8 @@ Starting with the multi-lingual sentiment analysis job from Exercise 2, implemen
 
 The workflow should follow this structure:
 
-```mermaid
-graph LR
-    A[LineReader] --> B[Language Classifier]
-    B --> |where = en| D[Sentiment Analysis]
-    B --> |where != en| C[Translator]
-    C -.-> |append_cols = translated| A
-    C --> |output| G[translations.csv]
-    D --> |output| E[negative.csv]
-    D --> |output| F[positive.csv]
-```
+![exercise_3](/lab4/assets/exercise_3.png)
+
 
 <details>
 <summary>Need help getting started?</summary>
