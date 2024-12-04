@@ -122,6 +122,7 @@ out of operators by discretizing streams, consistent checkpoints in Flink using
 Chandy-Lamport algorithm.
 
 [Setup: Installing Pyflink](./lab3/setup.ipynb)
+
 Lab: Hands-on exercises with Flink.
 
 ### Day 4: Cyclic dataflow systems
