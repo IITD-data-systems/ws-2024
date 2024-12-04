@@ -25,9 +25,7 @@ $ docker pull 0xadnan/popper:latest
 ```
 
 2. Launch Popper in Docker:
-```
-$ docker run -p 5173:5173 -p 5000:5000 -it 0xadnan/popper:latest
-```
+   
 <details>
 <summary><strong>Important: </strong> For Mac users</summary>
 
@@ -37,6 +35,11 @@ $ docker run -p 5173:5173 -p 6000:5000 -it 0xadnan/popper:latest
 ```
   
 </details>
+
+```
+$ docker run -p 5173:5173 -p 5000:5000 -it 0xadnan/popper:latest
+```
+
 You should now see a prompt that looks something like:
 ```
 root@75a91d135cdf:/popper#
@@ -68,14 +71,13 @@ If the test passed sucessfully, go to the ws24_demo directory.
 ```
 cd ws24_demo
 ```
-Run the `test_light_models.py` script to all the models that we will be using in our lab.
+Run the `test_light_models.py` script to load the models that we will be using in our lab.
 ```
 root@75a91d135cdf:/popper/ws24_demo# python3 test_light_models.py
 ```
 
 Our docker image comes with pre-installed Python dependencies required for
 Popper.
-
 
 ## Part 1: Understanding PYSCOPE
 
@@ -270,12 +272,10 @@ class SentimentProcessor(Processor):
 
 Now, we can run our test to see if the workflow is working as expected:
 
-```python
-# Run test
-root@75a91d135cdf:/popper# pytest -s scope/integration_tests/ml_test.py
 ```
-
-TODO: Move to pytest -s usecases/sentiment/test.py
+# Run test
+root@75a91d135cdf:/popper# pytest -s ws_24/ml_test.py
+```
 
 Once the job is completed, the output will be saved at `data/sentiment/ml_out.txt`.
 We observe that all the positive and negative sentiments are correctly
@@ -284,31 +284,25 @@ classified and written to the output file.
 ### Visualizing the workflow
 Popper also provides a dashboard to visualize the workflow.  To start the
 visualization backend, run the following command:
-```python
+```
 root@75a91d135cdf:/popper# make server
 ```
 
-TODO: make sure you have `npm` installed 
-
 To spin up the UI run the following command:
-```python
+```
 root@75a91d135cdf:/popper# make demo
 ```
 You should now be able to see the dashboard by navigating to [localhost:5173](http://localhost:5173) in your web browser.
 
-TODO: screenshot
-
 Popper also supports performance tracing. To trace jobs, start Jaeger by running:
 
-```python
+```
 root@75a91d135cdf:/popper# make jaeger
 ```
 
 Then rerun the job using the `pytest` command above. Once the job finishes, you
 should be able to see the trace by navigating to
 [localhost:16686](http://localhost:16686).
-
-TODO: screenshot
 
 This hopefully gave you a good idea on how to write workflows in Popper, 
 
@@ -424,64 +418,64 @@ The workflow should follow this structure:
 ---
 
 
-
 ## Part 4: Error handling
 
-We will refer to our workflow with error handlers as a *Reactive Dataflow*, this
-is modeled as a directed cyclic graph. Cyclic, because we are going to allow you
-to go back in time(upstream operators) and fix errors that may have occured in
-downstream nodes. This is crucial for in-flight error handling.
+We refer to Popper workflow with error handlers as *Reactive Dataflows*. These
+are modeled as directed cyclic graphs which allow downstream operators to fix
+errors that may have occured in upstream operators. This is crucial for
+in-flight error handling.
 
-To succintly add error handlers to our workflow, we will use the `assrt()`
-method provided by the `JobBuilder` class or you can also use the `process()` method using the `Assert` operator. It takes in a predicate function similar to how we had in the `where()` operator. This predicate function takes in a `Row` and should return a tuple of (bool, str) where the bool indicates if our assertion passed or failed and the string provides an error message indicating why our assertion failed.
+Popper provides various APIs for applying upstream modifications:
+* `row.edit()`: allows you to edit a row in the output of an upstream operator.
+For example, let us say we got a row with a spelling mistake `{b"line": "rice movie!"}`
+which then gets `{b"sentiment": "negative"}`. A later operator can fix the
+spelling error by calling `row.edit({b'line': "nice movie"})` to fix the
+upstream row containing the line output. 
 
-Popper provides various APIs for doing cyclic operations on a `Row`:
-* `row.append()`: allows you to add new columns to a row. It takes in a dictionary
-of column names(in bytes) and returns a new row with the added columns. 
-*for e.g:* If row has {b"line": "this movie is great!"}, then `row.append({b'sentiment': "positive"})` will
-return a new row with {b'line': "this movie is great!", b'sentiment': "positive"}
+It will do *backward tracing* to first identify the upstream output row
+containing the column *line*; it will delete this upstream output row and append
+the editted row. Popper will automatically incrementally propagate these deletes
+and appends downwards.
 
-* `row.delete()`: allows you to remove specific columns from the row. It takes in
-list of columns to be removed and returns a new row with the specified columns
-removed. 
-*for e.g:* If row has {b"line": "this movie is great!", b'sentiment': "positive"}, then `row.delete([b'sentiment'])`
-will return a new row with {b'line': "this movie is great!"}
+TODO: Illustrate the above point with an image
 
-Two key APIs for Error Handling:
-* `row.edit()`: If the flow step that caught the mistake exactly knows which
-ancestor flow step made the mistake and how that mistake can be fixed, then you
-can call this edit API. This is what we call *targeted fixes*. Let's say we have a row with incorrect sentiment score and our `Assert` operator  caught this mistake downstream. We know exactly which ancestor operator (in this case `SentimentProcessor`) had made the mistake.
+* Similarly, `row.append()` takes a dictionary of column names to column values. 
+For example, let us say we got a `input_row` with `{b"line": "my wife and I liked the food!"}`. 
+We can call `row.append({b"line": "my husband and I liked the food!"})`. Append
+works in a manner similar to `edit` with the only difference that it does not 
+delete the original upstream row.
 
-For e.g. Original row data might look like:
+* `row.delete()`: allows you to delete upstream rows. It needs a column to
+perform backward tracing. In the example above, row.delete([b'line']) deletes
+both the line and the sentiment row, where row.delete([b'sentiment']) only
+deletes the sentiment row.
 
-```python
-{
-  b"line": "This movie is great!",
-  b"sentiment": "negative"  # Incorrectly negative for positive text
-}
-```
-Here we know that the sentiment label is incorrect and this error was generated
-by the `SentimentProcessor` operator. So now we can go ahead and  use the `edit()` API to fix the
-mistake in the `b"sentiment"`  column.
-
-```python
-new_row = row.edit({
-    b"sentiment": "positive",
-})
-``` 
-
-Our base Operator class has the following parameters that are used along with the above APIs to change the behaviour of the operator:
-* `append_cols`: This parameter allows you to add new columns to the ancestor operator and in this we can use the `row.append()` to add our rows to.
-* `delete_cols`: This parameter allows you to remove specific columns from the ancestor operator.
-* `edit_cols`: This parameter allows you to edit the columns of the ancestor operator.
+Similar to `in_col_types` and `out_col_types`, the base Operator class has the
+`edit_cols`, `append_cols` and `delete_cols` parameters that are needed if the Operator 
+is using the above APIs.  These parameters help JobBuilder realize the back
+edges which are further used to build the auxiliary graph and plan stages.
 
 ---
 ## Exercise 3
-> Task: Modify the multi-lingual sentiment analysis job to add the translated column back in the line reader. This will help us re-check if a row was correctly translated. Try outputting the translated along with the original line to a separate file.
+> Task: Use Popper's error handling APIs to catch and fix ML errors.
+ 
+In this exercise, we introduce synthentic errors into the translation model.
+Change your translation to 
+
+```
+  row.set(b"translation", random.choice(text, translated_text, 0.1, 0.9))
+```
+
+Now because the translations can be incorrect, we want to send them back to 
+the classifier. If the classifier again classifies it as non-english, we would
+like to drop the row.
+
+Additionally, try outputting the translated along with the original line
+to a separate file.
 
 Starting with the multi-lingual sentiment analysis job from Exercise 2, implement error handling that:
-- [ ] Detects when translations are not properly converted to English
-- [ ] Implements a retry mechanism to send problematic translations back to the classifier
+- [ ] Synthetically make translations erroneous
+- [ ] Send translated texts back to the classifier to double check that they are now in English
 - [ ] Prevents infinite loops by tracking which rows have already been translated
 - [ ] Drops rows that fail to identify as English even after translation.
 - [ ] Outputs the translated and original lines to a separate file (translations.csv).
@@ -502,174 +496,14 @@ graph LR
 <details>
 <summary>Need help getting started?</summary>
 
-1. Try using the `row.append()` method to add the translation info back to a new column created in the `LineReader` operator using the `append_cols` parameter.
-3. Test by forcefully adding a random choice to simulate translation errors to see if you can successsfully drop the translated rows trying to get translated again.
-4. Cycle back to the linereader using `row.append()`.
-5. Write both original and translated text to `translations.csv`.   
+1. Try using the `row.append()` method to add another row with translated line
+back to the output of the `LineReader` operator. Make sure, you specify
+`b"line"` in `append_cols` parameter.
+2. Test by forcefully adding a random choice to simulate translation errors to
+see if you can successsfully drop the translated rows trying to get translated
+again.
+3. You can `yield row.append(...)` and `yield Row(...)` from translator. The
+second yield (output row) is the one that can be written in `translations.csv`.
 
 </details>
 <br >
-
----
-## Exercise 4
-> Task: Implement a faster but potentially less accurate version of the multi-lingual sentiment analysis workflow using lightweight models.
-
-Starting with your solution from Exercise 2, implement the same workflow using these lightweight alternatives:
-
-Use the following lightweight ML models:
-  * Language classifier: `niharrp9/distilbert-base-multilingual-cased-finetuned-language-identification`
-  * Translator: `Helsinki-NLP/opus-mt-mul-en`
-  * Sentiment analyzer: `distilbert-base-uncased-finetuned-sst-2-english`
-
-Your workflow should:
-- [ ] Implement the same functionality as Exercise 2
-- [ ] Output a summary comparing performance metrics between heavy and light versions
-- [ ] Report your observations on the trade-offs between model size, inference speed, and accuracy.
-
-
-
-<details>
-<summary>Need help getting started?</summary>
-
-1. The Ground Truth can be found in the `data/sentiment/gt` folder for all the output files.
-2. While creating the output nodes, you can use the `gt` parameter provided by the Outputter class to load the ground truth file and compare the output with the ground truth.
-```python
-from scope.builtins.evaluator import csv_parse
-
-#you will have to define the path in the gt_translate_path variable. which will be then passed to the `gt` parameter along with the csv_parse to evaluate your results..
-jobc.where(inp=n, predicate=is_not_en, in_col_types={b"lang": b"str"}) \
-    .output(using=CsvWriter(to=translate_path, order=[b"line", b"translation"], gt=(gt_translate_path, csv_parse)))
-```
-4. Print the metrics for each of the output files.
-```python
-def test_run_ml() -> None:
-  job = prepareJob()
-
-  OUTPUTTER_LABELS = {
-    "translate.csv": "Translator",
-    "positive.csv": "Positive Sentiment",
-    "negative.csv": "Negative Sentiment"
-  }
-  
-  outputters: list[tuple[str, Outputter]] = [
-    (next(label for pattern, label in OUTPUTTER_LABELS.items() if pattern in n.operator.to),
-     cast(Outputter, n.operator))
-    for n in topologicalSort(job.root)
-    if isinstance(n, OutputterNode)
-  ]
-  assert len(outputters) == 3
-  job.build().run()
-
-  for label, outputter in outputters:
-    print(f"\n{label} Outputter:")
-    print(f"Precision: {outputter._prec:.3f}")
-    print(f"Recall: {outputter._recall:.3f}")
-    print(f"F1 Score: {outputter._f1:.3f}")
-```
-
-
-</details>
-<br >
-
----
-
-### 4.1: Conjectures
- Following the philosophy of Conjectures and Refutations *by Karl Popper*(hence the name Popper, if you haven't guessed already), we wanted to have multiple conjectures at various steps of the workflow. Supposedly, in our previous `SentimentProcessor` operator that takes in an ML model to process, but as ML models are flaky and bound to make mistakes. We want to have the ability to  keep multiple ML models at that step such that if our initial model made a mistake and we caught it downstream, we have the luxury to go back and try a better ML model that would refute the previous result and fix that mistake until it gets refuted. 
-
-In simpler terms, conjectures are multiple possibilities that we have at a step that can be tried in sequence(really??, more on this later in RL strategies) to get the desired output.
-
-One key API that we have in Popper that allows us to switch between conjectures is the `row.fail()
-` method. If the flow step downstream that caught the mistake does not know which
-ancestor flow step made a mistake and how that mistake can be fixed, then a
-later flow step can call the fail API. Calling fail automatically rolls back the
-old alternative and retries with a different alternative in an ancestor step.
-This is what we call *exploratory fixes*. 
-
-For e.g. From our previous Exercise 3 workflow, 
-
-We can see an example of this in the [simple_conjecture_test.py](../scope/integration_tests/simple_conjecture_test.py),
-where we try out different possibilites(conjectures) for transforming words.
-In the said example, `UpperLowerCaseTry` has the `conj_len` parameter  set to 5, which means
-that we will try out 5 different possibilites for transforming words and we see that it matches
-with the number of lambda functions that we have defined in the `UpperLowerCaseTry` operator.
-
-`conj_cols`: This parameter is used to specify the which columns in the data will have the conjecture transformations.
-
-`row.set()`: This is used to set values in a row, either as a single value or as multiple conjectures.
- For single values, it simply assigns the value to the specified column (e.g., `row.set(b"name", "john")`). 
- For conjectures, it accepts a list of values that will be tried in sequence (e.g., `row.set(b"word_trial", ["lower", "UPPER"])`), where `word_trial` is the column that will have the conjectures.
-
-
-Lets try running the above test to see the conjectures in action.
-
-```python
-# Run test
-pytest -s scope/integration_tests/simple_conjecture_test.py
-```
-
-
-
-
-## Miscellaneous
-### Node Creation
-The methods like `process()`, `extract()`, `output()` provided by `JobBuilder` create a `Node` object which is then added to the workflow.
-If we see how the `process()` method creates a `ProcessorNode` object, we can see that it takes in an `Operator` object  the `Processor` class and a `Node` object as arguments. The `Operator` object is the custom operator that we are adding to the workflow and the optional `Node` object is the ancestor node that might want to get connected to our current node. The input `Node` object is optional and if it is not provided, the new node is connected to the last node in the workflow.
-So a quick visual representation of the inheritence is something like this:
-
-```mermaid
-graph LR
-    subgraph "Operator Hierarchy"
-        A[Base Operator Class] --> B[Processor]
-        B --> C[Custom Operator<br/>e.g., SentimentProcessor]
-    end
-
-    subgraph "Node Creation"
-        C --> |"wrapped by"| D[ProcessorNode]
-    end
-
-    subgraph "Workflow DAG"
-        E[Previous Node] --> |"connected to"| D
-        D --> |"connects to"| F[Next Node]
-    end
-
-    style A fill:#f9f,stroke:#333
-    style B fill:#bbf,stroke:#333
-    style C fill:#bfb,stroke:#333
-    style D fill:#fbb,stroke:#333
-    style E fill:#ddd,stroke:#333
-    style F fill:#ddd,stroke:#333
-```
-### Optimizations in Popper
-Once you call `job.build()` to build the workflow. This will perform optimizations on the workflow and prepare the job for execution. Popper provides a few types of optimizations (see `scope/dag/opt.py`):
-
-1.`Melded Nodes`: In order to meld two nodes, they must satisfy the following conditions:
-- The current node must allow melding with its child(`can_meld_with_down()`)
-- The current node must have exactly one child
-- The child node must allow melding with its parent(`can_meld_with_up()`)
-- Both the nodes must have the same worker count
-
-So melding can happen between two nodes of the same type and they form a `Composition` node, 
-
-*for e.g.*
-* Two `Processor` nodes can meld to form a `ProcessorComposition`node.
-
-Two nodes of different types that satisfy the above conditions can also meld to form a `Composition` node. 
-
-*for e.g:*
-* An `Extractor` node and a `Processor` node can meld to form an `ExtractorComposition` node. 
-* An `Outputter` node and a `Processor` node can meld to form an `OutputterComposition` node. 
-* There is one exception to this rule though, an `Extractor` node cannot meld with an `Outputter` node. 
-
-
-`Dead Node Removal `: This optimization removes nodes that are not connected to any other nodes in the workflow.
-
-
-
-
-Q4: Give light alternative for every model. Let them observe that it is actually
-faster than Q2 but less accurate.
-
-Q5: For every ML operator, light/heavy models as conjectures. Assertions
-simply check that confidence is above a threshold.
-
-Q6: Using RL strategies to improve runtime!
