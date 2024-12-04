@@ -318,10 +318,9 @@ This hopefully gave you a good idea on how to write workflows in Popper,
 
 Starting with the existing sentiment analysis job, implement the following
 requirements:
-- [ ] Try using the `where()` operator in `JobBuilder` to separate the positive
-and negative sentiments.
-- [ ] The output should show now only show the `line` column.
-- [ ] Your output files should now only have the 
+<input type="checkbox" disabled> Try using the `where()` operator in `JobBuilder` to separate the positive and negative sentiments
+
+<input type="checkbox" disabled> The output should show now only show the `line` column
 
 <details>
 <summary>Need help getting started?</summary>
@@ -367,7 +366,7 @@ jobc.where(inp=n, predicate=is_negative, in_col_types={b"sentiment": b"str"}) \
     .output(using=CsvWriter(to=abs_out_path, order=[b"line"], gt=(gt_neg_path, csv_parse)))
 ```
 
-![get_node](/lab4/get_node.png)
+![get_node](../lab4/get_node.png)
 
 ## Part 3: Multi-lingual sentiment analysis 
 
@@ -382,14 +381,17 @@ Use the following ML models:
   * Sentiment analyzer: `cardiffnlp/twitter-roberta-base-sentiment`
 
 Your workflow should:
-- [ ] Uses a language classifier ML model to detect if input text is in English
-- [ ] Use an ML model that Translates non-English text to English
-- [ ] Performs sentiment analysis on all texts (both original English and translated)
-- [ ] Outputs results to separate files for positive and negative sentiments.
+<input type="checkbox" disabled> Uses a language classifier ML model to detect if input text is in English
+
+<input type="checkbox" disabled> Use an ML model that Translates non-English text to English
+
+<input type="checkbox" disabled> Performs sentiment analysis on all texts (both original English and translated)
+
+<input type="checkbox" disabled> Outputs results to separate files for positive and negative sentiments
 
 The workflow should follow this structure:
 
-![exercise_2](/lab4/exercise_2.png)
+![exercise_2](../lab4/exercise_2.png)
 
 
 <details>
@@ -468,15 +470,19 @@ Additionally, try outputting the translated along with the original line
 to a separate file.
 
 Starting with the multi-lingual sentiment analysis job from Exercise 2, implement error handling that:
-- [ ] Synthetically make translations erroneous
-- [ ] Send translated texts back to the classifier to double check that they are now in English
-- [ ] Prevents infinite loops by tracking which rows have already been translated
-- [ ] Drops rows that fail to identify as English even after translation.
-- [ ] Outputs the translated and original lines to a separate file (translations.csv).
+<input type="checkbox" disabled> Synthetically make translations erroneous
+
+<input type="checkbox" disabled> Send translated texts back to the classifier to double check that they are now in English
+
+<input type="checkbox" disabled> Prevents infinite loops by tracking which rows have already been translated
+
+<input type="checkbox" disabled> Drops rows that fail to identify as English even after translation
+
+<input type="checkbox" disabled> Outputs the translated and original lines to a separate file (translations.csv)
 
 The workflow should follow this structure:
 
-![exercise_3](/lab4/exercise_3.png)
+![exercise_3](../lab4/exercise_3.png)
 
 
 <details>
