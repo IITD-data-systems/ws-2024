@@ -29,15 +29,14 @@ $ docker pull iitddatasystems/popperlite:latest
 Launch Popper in Docker:
    
 <details>
-<summary><strong>Note: </strong> For Mac users</summary>
+<summary><strong>Note for macOS Users</strong></summary>
 
-You might want to map port 5000 to some other port in your machine, run:
-
+Port 5000 is reserved on macOS. Use this command to map to port 6000 instead:
 
 ```
-$ docker run -p 5173:5173 -p 6000:5000 -it iitddatasystems/popperlite:latest
+docker run -p 5173:5173 -p 6000:5000 -it iitddatasystems/popperlite:latest
 ```
-  
+
 </details>
 <br>
 
@@ -55,12 +54,12 @@ Start Redis:
 root@75a91d135cdf:/popper# make redis
 ```
 
-4. Start the Object Store:
+Start the Object Store:
 ```
 root@75a91d135cdf:/popper# make objstore
 ```
 
-5. Test if the installation was successful, try running some tests in a new terminal:
+Test if the installation was successful, try running some tests in a new terminal:
 ```
 # Get container ID
 $ docker ps
@@ -328,7 +327,11 @@ and negative sentiments.
 <summary>Need help getting started?</summary>
 
 - Learn how to write `where()` operators from `scope/integration_tests/where_as_group_test.py`.
+
+
 - You will need two separate outputters to write to two different files for the positive and negative sentiments.
+
+
 - Try using the `get_node()` method to break the chain and give access to the last node in the workflow (see next section for more details).
 </details>
 <br>
@@ -364,7 +367,7 @@ jobc.where(inp=n, predicate=is_negative, in_col_types={b"sentiment": b"str"}) \
     .output(using=CsvWriter(to=abs_out_path, order=[b"line"], gt=(gt_neg_path, csv_parse)))
 ```
 
-![get_node](/lab4/assets/get_node.png)
+![get_node](/lab4/get_node.png)
 
 ## Part 3: Multi-lingual sentiment analysis 
 
@@ -386,7 +389,7 @@ Your workflow should:
 
 The workflow should follow this structure:
 
-![exercise_2](/lab4/assets/exercise_2.png)
+![exercise_2](/lab4/exercise_2.png)
 
 
 <details>
@@ -396,9 +399,11 @@ The workflow should follow this structure:
    - `LanguageClassifier`: Extends `Processor` to detect the text language
    - `Translator`: Extends `Processor` to translate non-English text to English
 
+
 2. Use the `where()` operator twice after the classifier:
    - One branch for English text (where language == "en")
    - One branch for non-English text (where language != "en")
+
 
 3. Use the `union()` operator provided in the `Jobbuilder` to combine the English and translated texts before sentiment analysis
 
@@ -471,7 +476,7 @@ Starting with the multi-lingual sentiment analysis job from Exercise 2, implemen
 
 The workflow should follow this structure:
 
-![exercise_3](/lab4/assets/exercise_3.png)
+![exercise_3](/lab4/exercise_3.png)
 
 
 <details>
@@ -480,9 +485,11 @@ The workflow should follow this structure:
 1. Try using the `row.append()` method to add another row with translated line
 back to the output of the `LineReader` operator. Make sure, you specify
 `b"line"` in `append_cols` parameter.
+
 2. Test by forcefully adding a random choice to simulate translation errors to
 see if you can successsfully drop the translated rows trying to get translated
 again.
+
 3. You can `yield row.append(...)` and `yield Row(...)` from translator. The
 second yield (output row) is the one that can be written in `translations.csv`.
 
