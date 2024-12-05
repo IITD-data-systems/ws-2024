@@ -23,7 +23,7 @@ later](#part-1-understanding-pyscope)).
 
 Pull the Popper Docker image:
 ```
-$ docker pull iitddatasystems/popperlite:latest
+$ docker pull datasystems/popperlite:latest
 ```
 
 Launch Popper in Docker:
@@ -34,14 +34,14 @@ Launch Popper in Docker:
 Port 5000 is reserved on macOS. Use this command to map to port 6000 instead:
 
 ```
-docker run -p 5173:5173 -p 6000:5000 -it iitddatasystems/popperlite:latest
+docker run -it --name popper -p 5173:5173 -p 6000:5000 datasystems/popperlite:latest /bin/bash
 ```
 
 </details>
 <br>
 
 ```
-$ docker run -p 5173:5173 -p 5000:5000 -it iitddatasystems/popperlite:latest
+docker run -it --name popper -p 5173:5173 -p 5000:5000 datasystems/popperlite:latest /bin/bash
 ```
 
 You should now see a prompt that looks something like:
@@ -60,13 +60,10 @@ root@75a91d135cdf:/popper# make objstore
 ```
 
 Test if the installation was successful, try running some tests in a new terminal:
-```
-# Get container ID
-$ docker ps
-```
+
 ```
 # Connect to container
-$ docker exec -it <container_id> /bin/bash
+$ docker exec -it popper /bin/bash
 ```
 ```
 root@75a91d135cdf:/popper# pytest -s scope/integration_tests/append_test.py
@@ -318,6 +315,7 @@ This hopefully gave you a good idea on how to write workflows in Popper,
 
 Starting with the existing sentiment analysis job, implement the following
 requirements:
+
 <input type="checkbox" disabled> Try using the `where()` operator in `JobBuilder` to separate the positive and negative sentiments
 
 <input type="checkbox" disabled> The output should show now only show the `line` column
@@ -381,6 +379,7 @@ Use the following ML models:
   * Sentiment analyzer: `cardiffnlp/twitter-roberta-base-sentiment`
 
 Your workflow should:
+
 <input type="checkbox" disabled> Uses a language classifier ML model to detect if input text is in English
 
 <input type="checkbox" disabled> Use an ML model that Translates non-English text to English
@@ -470,6 +469,7 @@ Additionally, try outputting the translated along with the original line
 to a separate file.
 
 Starting with the multi-lingual sentiment analysis job from Exercise 2, implement error handling that:
+
 <input type="checkbox" disabled> Synthetically make translations erroneous
 
 <input type="checkbox" disabled> Send translated texts back to the classifier to double check that they are now in English

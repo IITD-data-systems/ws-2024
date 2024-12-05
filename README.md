@@ -136,7 +136,7 @@ citizen, Reactive dataflow with deletes, edits, and appends.
 stage planning with incremental/non-incremental, monotonic/non-monotonic
 operators
 
-Lab: Hands-on exercises with Popper.
+[Lab: Hands-on exercises with Popper.](./lab4/)
 
 ### Day 5: Cross-platform data processing
 Lecture:
