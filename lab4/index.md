@@ -37,6 +37,10 @@ Port 5000 is reserved on macOS. Use this command to map to port 6000 instead:
 docker run -it --name popper -p 5173:5173 -p 6000:5000 datasystems/popperlite:latest /bin/bash
 ```
 
+If you are on Apple Silicon Macs and encounter "Illegal instruction" errors when running Popper, add the platform flag:
+```
+docker run -it --platform linux/arm64/v8 --name popper -p 5173:5173 -p 6000:5000 datasystems/popperlite:latest /bin/bash
+```
 </details>
 <br>
 
@@ -57,6 +61,7 @@ For a better development experience, we recommend using VS Code with the Dev Con
 - VS Code will reopen connected to the container, giving you better experience :)
 
 You should now see a terminal in VS Code that looks like:
+
 ```
 root@75a91d135cdf:/popper#
 ```
@@ -98,6 +103,7 @@ Initialize the required models by executing the `test_light_models.py` script:
 ```
 root@75a91d135cdf:/popper/ws24_demo# python3 test_light_models.py
 ```
+
 
 Our docker image comes with pre-installed Python dependencies required for
 Popper.
