@@ -6,12 +6,6 @@
 > [Prof. Sanjam Garg](https://people.eecs.berkeley.edu/~sanjamg/), UC Berkeley,
 an alumnus of IITD, will give a keynote address titled "Your research career".
 
-> [!IMPORTANT]  
-> Selected candidates have already been notified via email. All selected
-candidates are kindly requested to join the Google group
-https://groups.google.com/g/ds-ws24 for the latest updates and communications.
-An invitation has also been sent; if you have not received it, please check your
-spam folder. 
 
 ## Welcome<a name="about"></a>
 The **Winter School 2024 on Data Systems**, organized by the Data Systems Group
