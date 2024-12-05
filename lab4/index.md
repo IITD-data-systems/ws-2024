@@ -44,14 +44,21 @@ docker run -it --name popper -p 5173:5173 -p 6000:5000 datasystems/popperlite:la
 docker run -it --name popper -p 5173:5173 -p 5000:5000 datasystems/popperlite:latest /bin/bash
 ```
 
-You should now see a prompt that looks something like:
+**Using VS Code Dev Containers Extension (Recommended)**
+
+For a better development experience, we recommend using VS Code with the Dev Containers extension:
+
+- Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) in VS Code
+
+- After starting the container as shown above, click the green button in the bottom-left corner of VS Code (or press Ctrl/Cmd + Shift + P and search for "Dev Containers: Attach to Running Container")
+
+- Select the running `popper` container
+
+- VS Code will reopen connected to the container, giving you better experience :)
+
+You should now see a terminal in VS Code that looks like:
 ```
 root@75a91d135cdf:/popper#
-```
-
-Start Redis:
-```
-root@75a91d135cdf:/popper# make redis
 ```
 
 Start the Object Store:
@@ -285,6 +292,11 @@ We observe that all the positive and negative sentiments are correctly
 classified and written to the output file.
 
 ### Visualizing the workflow
+
+> **Note**: Before starting the visualization, you'll need to fix two files:
+> 1. Update `/popper/demo/src/views/pages/Workflow.jsx` with [these changes](fix1.txt)
+> 2. Update `/popper/demo/vite.config.js` with [these changes](fix2.txt)****
+
 Popper also provides a dashboard to visualize the workflow.  To start the
 visualization backend, run the following command:
 ```
