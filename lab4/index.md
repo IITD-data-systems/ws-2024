@@ -78,6 +78,7 @@ Test if the installation was successful, try running some tests in a new termina
 
 ```
 # Connect to container
+
 $ docker exec -it popper /bin/bash
 ```
 </details>
