@@ -61,6 +61,11 @@ You should now see a terminal in VS Code that looks like:
 root@75a91d135cdf:/popper#
 ```
 
+Start Redis:
+```
+root@75a91d135cdf:/popper# make redis
+```
+
 Start the Object Store:
 ```
 root@75a91d135cdf:/popper# make objstore
@@ -68,10 +73,17 @@ root@75a91d135cdf:/popper# make objstore
 
 Test if the installation was successful, try running some tests in a new terminal:
 
+<details>
+<summary>If you are not using VS Code Dev Containers</summary>
+
 ```
 # Connect to container
 $ docker exec -it popper /bin/bash
 ```
+</details>
+<br>
+
+
 ```
 root@75a91d135cdf:/popper# pytest -s scope/integration_tests/append_test.py
 ```
