@@ -32,15 +32,9 @@ Launch Popper in Docker:
 <summary><strong>Note for macOS Users</strong></summary>
 
 Port 5000 is reserved on macOS. Use this command to map to port 6000 instead:
-
-```
+<br>
 docker run -it --name popper -p 5173:5173 -p 6000:5000 datasystems/popperlite:latest /bin/bash
-```
 
-If you are on Apple Silicon Macs and encounter "Illegal instruction" errors when running Popper, add the platform flag:
-```
-docker run -it --platform linux/arm64/v8 --name popper -p 5173:5173 -p 6000:5000 datasystems/popperlite:latest /bin/bash
-```
 </details>
 <br>
 
@@ -54,7 +48,7 @@ For a better development experience, we recommend using VS Code with the Dev Con
 
 - Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) in VS Code
 
-- After starting the container as shown above, click the green button in the bottom-left corner of VS Code (or press Ctrl/Cmd + Shift + P and search for "Dev Containers: Attach to Running Container")
+- After starting the container as shown above, click the blue button in the bottom-left corner of VS Code (or press Ctrl/Cmd + Shift + P and search for "Dev Containers: Attach to Running Container")
 
 - Select the running `popper` container
 
@@ -145,6 +139,9 @@ next few steps)
 CSV file. (you can find this operator implemented in
 `scope/builtins/outputters.py`)
 
+In our working directory "ws24_demo", let's create a new file called `ml_test.py` and start writing our code.
+
+
 First let's get all our necessary imports out of the way:
 
 ```python
@@ -157,7 +154,7 @@ from scope.core.job import Job
 from scope.core.jobbuilder import JobBuilder
 from scope.core.nodes import OutputterNode
 from scope.core.utils import topologicalSort
-from scope.examples.word_count import LineReader
+from scope.builtins.extractors import LineReader
 from scope.model.row import Row
 from scope.model.rows import Rows
 from scope.operators.outputter import Outputter
@@ -293,7 +290,6 @@ class SentimentProcessor(Processor):
 
     # Instead of using data_dict, we can also use the `set()` method to set the
     # value of a column in the output row.
-    out_row.set()
     out_row.set(b"confidence", confidence)
     
     yield out_row
@@ -311,10 +307,6 @@ We observe that all the positive and negative sentiments are correctly
 classified and written to the output file.
 
 ### Visualizing the workflow
-
-> **Note**: Before starting the visualization, you'll need to fix two files:
-> 1. Update `/popper/demo/src/views/pages/Workflow.jsx` with [these changes](fix1.txt)
-> 2. Update `/popper/demo/vite.config.js` with [these changes](fix2.txt)****
 
 Popper also provides a dashboard to visualize the workflow.  To start the
 visualization backend, run the following command:
@@ -463,7 +455,10 @@ containing the column *line*; it will delete this upstream output row and append
 the editted row. Popper will automatically incrementally propagate these deletes
 and appends downwards.
 
-TODO: Illustrate the above point with an image
+<p align="center">
+  <img src="../lab4/row_edit.png" width="500" alt="row.edit" />
+</p>
+
 
 * Similarly, `row.append()` takes a dictionary of column names to column values. 
 For example, let us say we got a `input_row` with `{b"line": "my wife and I liked the food!"}`. 
@@ -489,7 +484,7 @@ In this exercise, we introduce synthentic errors into the translation model.
 Change your translation to 
 
 ```
-  row.set(b"translation", random.choice(text, translated_text, 0.1, 0.9))
+  translated_text = random.choices([text, translated_text], weights=[0.1, 0.9])[0]
 ```
 
 Now because the translations can be incorrect, we want to send them back to 
