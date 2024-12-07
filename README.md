@@ -80,6 +80,7 @@ locality optimizations, re-execute lost/backup tasks, deterministic/idempotent
 tasks.
 
 [Lab: Write a fault tolerant computation from scratch.](./lab1/)
+
 Resources:
 1. Distributed Shared Memory: [Notes](https://github.com/codenet/col733-cloud/blob/main/compute-dsm.md) 
 and [paper](https://dl.acm.org/doi/10.1109/2.84877).
