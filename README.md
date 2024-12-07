@@ -80,6 +80,11 @@ locality optimizations, re-execute lost/backup tasks, deterministic/idempotent
 tasks.
 
 [Lab: Write a fault tolerant computation from scratch.](./lab1/)
+Resources:
+1. Distributed Shared Memory: [Notes](https://github.com/codenet/col733-cloud/blob/main/compute-dsm.md) 
+and [paper](https://dl.acm.org/doi/10.1109/2.84877).
+2. MapReduce: [Notes](https://github.com/codenet/col733-cloud/blob/main/compute-mr.md) and 
+[paper](https://www.usenix.org/legacy/events/osdi04/tech/full_papers/dean/dean.pdf)
 
 ### Day 2: Dataflow systems for batch processing
 Keynote address by [Prof. Sanjam Garg](https://people.eecs.berkeley.edu/~sanjamg/), UC Berkeley titled *"Your research career"*.
@@ -105,6 +110,10 @@ Lectures:
 
 [Lab: Hands-on exercises with Spark.](./lab2/lab2.zip)
 
+Resources:
+1. Spark: [Notes](https://github.com/codenet/col733-cloud/blob/main/compute-rdd.md) 
+and [paper](https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf).
+
 ### Day 3: Dataflow systems for stream processing
 Lecture:
 * Semantics of stream processing: unbounded streams, event time vs processing
@@ -115,9 +124,14 @@ low-latency;
 out of operators by discretizing streams, consistent checkpoints in Flink using
 Chandy-Lamport algorithm.
 
-[Setup: Installing Pyflink](./lab3/setup.ipynb)
+Lab: Hands-on exercises with Flink. [Setup: Installing Pyflink](./lab3/setup.ipynb)
+and [lab](./lab3/lab3.ipynb).
 
-[Lab: Hands-on exercises with Flink.](./lab3/lab3.ipynb)
+Resources:
+1. Spark streaming: [Notes](https://github.com/codenet/col733-cloud/blob/main/compute-dstreams.md) 
+and [paper](https://dl.acm.org/doi/pdf/10.1145/2517349.2522737).
+2. Flink: [Notes](https://github.com/codenet/col733-cloud/blob/main/compute-flink.md) and
+[paper](https://dl.acm.org/doi/10.14778/3137765.3137777).
 
 ### Day 4: Cyclic dataflow systems
 Lecture:
@@ -132,6 +146,9 @@ operators
 
 [Lab: Hands-on exercises with Popper.](./lab4/)
 
+Resources:
+1. Popper: [Paper](https://dl.acm.org/doi/10.1145/3650203.3663333).
+
 ### Day 5: Cross-platform data processing
 Lecture:
 * Introduction to Wayang: a platform for cross-framework data processing,
@@ -140,8 +157,6 @@ allowing optimizations across Spark, Flink, and Relational Databases.
 Career session:
 * Data systems research at IITD, guiding participants interested
 in pursuing higher studies, and research success stories.
-
-Lab: Hands-on exercises with Wayang.
 
 > Disclaimer: The schedule and topics are only tentative. They are subject to
 change depending upon attendee interests.
