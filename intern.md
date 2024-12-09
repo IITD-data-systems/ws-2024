@@ -1,39 +1,48 @@
-## Below are some open questions related to our research in the Data Systems lab that we encourage you to explore. If you're interested in a summer internship, we invite you to try solving one or more of these problems and share your insights with us.
+## Summer internships 2025
 
-
+Below are some open questions related to our research in the Data Systems lab
+that we encourage you to explore. If you're interested in a summer internship,
+we invite you to try solving one or more of these problems and share your
+insights with us.
 
 
 ### Streaming and Iterative Computations
 - Q1. Describe how you could mix streaming computation with iterative computation.
-Take calculating connected components of a graph as an example to demonstrate
-your idea. You may assume that new graph nodes (e.g., new social network users)
-and new edges (e.g., new social network friendships) are streaming into your
-system. Using an example, show how your mixture can compute connected
-components over a streaming graph.
-
-*Hints:* 
-1. Try to extend the connected components calculation using the iterative label
-exchange algorithm discussed during the winter school.
-2. Try to use Popper's monotonic/non-monotonic and incremental/non-incremental
-taxonomy of operators to see if you can extend the above iterative algorithm
-into iterative + streaming algorithm.
+  Take calculating connected components of a graph as an example to demonstrate
+  your idea. You may assume that new graph nodes (e.g., new social network users)
+  and new graph edges (e.g., new social network friendships) are streaming into your
+  system. Using an example, show how your mixture can compute connected
+  components over a streaming graph.
+  
+  *Hints:* 
+  1. Try to extend the connected components calculation using the iterative label
+  exchange algorithm discussed during the winter school.
+  2. Try to use Popper's monotonic/non-monotonic and incremental/non-incremental
+  taxonomy of operators to see if you can extend the above iterative algorithm
+  into iterative + streaming algorithm.
 
 - Q2. For the streaming + iterative computation in Q1, describe an asynchronous
-checkpointing mechanism that creates consistent checkpoints. Argue about its
-correctness. Proof by example suffices.
-
-*Hint:* Try to extend Flink's marker-based algorithm (Chandy-Lamport algorithm) we
-discussed during the winter school. During the winter school, we showed how it
-works for DAGs.
+  checkpointing mechanism that creates consistent checkpoints. Argue about its
+  correctness. Proof by example suffices.
+  
+  *Hint:* Try to extend Flink's marker-based algorithm (Chandy-Lamport algorithm) we
+  discussed during the winter school. During the winter school, we showed how it
+  works for DAGs.
 
 - Q3. Try to extend the Q1's computation such that it can also handle streaming
 retractions of graph nodes (e.g, deleted social network users) and of graph
-edges (e.g, deleted social network edges).
+edges (e.g, deleted social network friendships).
 
 ---
 
 ### Popper
-- Describe your experiences (provide a link to your code if possible) with using Popper with use cases discussed in lab 4 or with some different use cases.
+- Describe your experiences (provide your code if possible) with using Popper
+with use cases discussed in lab 4 or with some different use cases.
+- Read the following paper: [Reactive Dataflow for Inflight Error Handling in ML
+Workflows](http://abhilash-jindal.com/assets/pdfs/deem24.pdf). Identify one or
+more limitations and propose how you would overcome those limitations. Include a
+proof-of-sketch solution to the problems you identify.
+
 
 ---
 
